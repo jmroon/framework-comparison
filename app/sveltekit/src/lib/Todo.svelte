@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Todo } from 'src/stores/todo-store';
+	import type { Todo } from '$lib/stores/todo-store';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -9,11 +9,7 @@
 
 <div class="todo">
 	{todo.title}
-	<input
-		type="checkbox"
-		checked={todo.completed}
-		on:click={() => dispatch('complete', todo.completed)}
-	/>
+	<input type="checkbox" checked={todo.completed} on:click={() => dispatch('complete')} />
 </div>
 
 <style>

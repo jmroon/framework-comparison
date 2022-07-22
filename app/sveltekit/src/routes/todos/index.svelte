@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-	import { todos, addTodo, completeTodo } from '../../stores/todo-store';
+	import { todos, addTodo, completeTodo } from '$lib/stores/todo-store';
 	import Todo from '$lib/Todo.svelte';
 	import { fly } from 'svelte/transition';
 
