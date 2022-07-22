@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	export async function load() {
 		console.log(
-			'We could load todos from the server here and pass them into our component. SSR yay :)'
+			'We could load todos from the server here and pass them into our component. SSR made easy :)'
 		);
 	}
 </script>
@@ -14,6 +14,7 @@
 	let addText = '';
 
 	function onAdd() {
+		console.log('add todo');
 		if (addText.length > 0) {
 			addTodo(addText);
 			addText = '';
