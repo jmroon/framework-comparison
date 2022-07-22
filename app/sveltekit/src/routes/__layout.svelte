@@ -1,45 +1,57 @@
 <script lang="ts">
-	import Header from '$lib/header/Header.svelte';
 	import '../app.css';
 </script>
 
-<Header />
+<header>
+	<nav>
+		<a href="/"><h1>Svelte Kit</h1></a>
+		<span class="spacer" />
+		<a href="/">Counter</a>
+		<a href="/todos">Todos</a>
+	</nav>
+</header>
 
 <main>
 	<slot />
 </main>
 
-<footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-</footer>
+<footer>Hello Footer</footer>
 
 <style>
 	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
+		margin-top: 1rem;
 		padding: 1rem;
-		width: 100%;
-		max-width: 1024px;
-		margin: 0 auto;
 		box-sizing: border-box;
+		border: 1px black solid;
 	}
-
 	footer {
+		margin-top: 1rem;
+		height: 100px;
+		border: 1px black solid;
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-		padding: 40px;
+		padding: 1rem;
 	}
 
-	footer a {
-		font-weight: bold;
+	header {
+		width: 100%;
+		height: 60px;
+		background-color: darkslategrey;
+		color: white;
 	}
 
-	@media (min-width: 480px) {
-		footer {
-			padding: 40px 0;
-		}
+	nav {
+		height: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		font-size: larger;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		gap: 1rem;
+	}
+
+	a {
+		color: white;
 	}
 </style>
