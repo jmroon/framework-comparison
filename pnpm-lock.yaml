@@ -5,12 +5,10 @@ specifiers:
   prettier-plugin-svelte: ^2.7.0
   svelte: ^3.49.0
 
-dependencies:
-  prettier-plugin-svelte: 2.7.0_o3ioganyptcsrh6x4hnxvjkpqi
-  svelte: 3.49.0
-
 devDependencies:
   prettier: 2.7.1
+  prettier-plugin-svelte: 2.7.0_o3ioganyptcsrh6x4hnxvjkpqi
+  svelte: 3.49.0
 
 packages:
 
@@ -22,14 +20,15 @@ packages:
     dependencies:
       prettier: 2.7.1
       svelte: 3.49.0
-    dev: false
+    dev: true
 
   /prettier/2.7.1:
     resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+    dev: true
 
   /svelte/3.49.0:
     resolution: {integrity: sha512-+lmjic1pApJWDfPCpUUTc1m8azDqYCG1JN9YEngrx/hUyIcFJo6VZhj0A1Ai0wqoHcEIuQy+e9tk+4uDgdtsFA==}
     engines: {node: '>= 8'}
-    dev: false
+    dev: true

@@ -6,14 +6,6 @@
 	$: console.log('the count is ' + counter);
 
 	$: doubleCount, console.log('doubleCount changed, do something');
-
-	function increment() {
-		counter++;
-	}
-
-	function decrement() {
-		counter--;
-	}
 </script>
 
 <div class="counter">
@@ -23,8 +15,8 @@
 			<span>{counter}</span>
 		</div>
 		<div class="counter-controls">
-			<button on:click={increment}>+</button>
-			<button on:click={decrement}>-</button>
+			<button on:click={() => counter--}>-</button>
+			<button on:click={() => counter++}>+</button>
 		</div>
 	</div>
 </div>
