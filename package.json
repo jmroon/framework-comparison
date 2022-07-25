@@ -4,12 +4,15 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev:svelte": "cd ./app/sveltekit && pnpm dev"
+		"dev:svelte": "cd ./app/sveltekit && yarn dev",
+		"dev:react": "cd ./app/react-app && yarn start"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@smui/checkbox": "^6.0.0",
+		"@smui/list": "^6.0.0",
 		"prettier": "^2.7.1",
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.49.0"

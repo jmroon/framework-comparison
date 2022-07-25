@@ -1,28 +1,49 @@
 <script lang="ts">
 	import '../app.css';
+	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
+	import Button, { Label } from '@smui/button';
 </script>
 
-<header>
-	<nav>
-		<a href="/"><h1>Svelte Kit</h1></a>
-		<span class="spacer" />
-		<a href="/">Counter</a>
-		<a href="/todos">Todos</a>
-	</nav>
-</header>
+<div class="app">
+	<TopAppBar variant="static" color="primary">
+		<Row>
+			<Section>
+				<Title>Svelte Kit</Title>
+			</Section>
+			<Section align="end" toolbar>
+				<Button variant="unelevated" href="/"><Label>Counter</Label></Button>
+				<Button variant="unelevated" href="/todos"><Label>Todos</Label></Button>
+			</Section>
+		</Row>
+	</TopAppBar>
 
-<main>
-	<slot />
-</main>
+	<main>
+		Hello from Main Content
+		<div class="container">
+			<slot />
+		</div>
+	</main>
 
-<footer>Hello Footer</footer>
+	<footer>Hello from Footer</footer>
+</div>
 
 <style>
+	.app {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 	main {
-		margin-top: 1rem;
-		padding: 1rem;
-		box-sizing: border-box;
 		border: 1px black solid;
+		padding: 1rem;
+	}
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		max-width: 1280px;
 	}
 	footer {
 		margin-top: 1rem;
@@ -31,27 +52,5 @@
 		display: flex;
 		align-items: center;
 		padding: 1rem;
-	}
-
-	header {
-		width: 100%;
-		height: 60px;
-		background-color: darkslategrey;
-		color: white;
-	}
-
-	nav {
-		height: 100%;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-		font-size: larger;
-		padding-left: 1rem;
-		padding-right: 1rem;
-		gap: 1rem;
-	}
-
-	a {
-		color: white;
 	}
 </style>

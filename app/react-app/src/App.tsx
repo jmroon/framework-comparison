@@ -8,18 +8,7 @@ const App = () => {
 			<AppBar position="static">
 				<Container maxWidth="xl">
 					<Toolbar disableGutters>
-						<Typography
-							variant="h5"
-							component="a"
-							href=""
-							sx={{
-								flexGrow: 1,
-								color: 'inherit',
-								textDecoration: 'none'
-							}}
-						>
-							LOGO
-						</Typography>
+						<AppTitle />
 						<Box sx={{ display: 'flex', gap: '1rem' }}>
 							<AppMenuItem label="Counter" href="/"></AppMenuItem>
 							<AppMenuItem label="Todos" href="/todos"></AppMenuItem>
@@ -35,7 +24,7 @@ const App = () => {
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					justifyContent: 'center'
+					padding: '1rem'
 				}}
 			>
 				<Counter />
@@ -43,6 +32,21 @@ const App = () => {
 		</Box>
 	);
 };
+
+const AppTitle = () => (
+	<Typography
+		variant="h5"
+		component="a"
+		href=""
+		sx={{
+			flexGrow: 1,
+			color: 'inherit',
+			textDecoration: 'none'
+		}}
+	>
+		React
+	</Typography>
+);
 
 const AppMenuItem = (props: { label: string; href: string }) => {
 	return (
