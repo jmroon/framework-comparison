@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
-import { BehaviorSubject, interval, map, merge, switchMap, tap, withLatestFrom } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { BehaviorSubject, interval, map, merge, tap } from 'rxjs';
 
 @Component({
   selector: 'app-counter-observables',
   templateUrl: './counter-observables.component.html',
   styleUrls: ['./counter-observables.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class CounterObservablesComponent {
   @Input() label = 'Counter - Observables';

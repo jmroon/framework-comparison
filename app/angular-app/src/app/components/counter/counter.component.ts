@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-counter',
@@ -6,11 +6,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
   styleUrls: ['./counter.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent implements OnInit {
+export class CounterComponent implements OnInit, DoCheck {
+  @Input() label = 'Counter';
+
   count = 0;
   doubleCount = 0;
   countChanged = 0;
-  label = 'Counter';
   timeSinceChange = 0;
 
   constructor(private cd: ChangeDetectorRef) {}
@@ -18,8 +19,12 @@ export class CounterComponent implements OnInit {
   ngOnInit(): void {
     setInterval(() => {
       this.timeSinceChange++;
-      this.cd.detectChanges();
+      this.cd.markForCheck();
     }, 1000);
+  }
+
+  ngDoCheck() {
+    console.log('do check');
   }
 
   decrement() {

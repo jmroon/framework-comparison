@@ -11,7 +11,7 @@
         <Title>Svelte Kit</Title>
       </Section>
       <Section align="end" toolbar>
-        <Button variant="unelevated" href="/"><Label>Counter</Label></Button>
+        <Button variant="unelevated" href="/counter"><Label>Counter</Label></Button>
         <Button variant="unelevated" href="/todos"><Label>Todos</Label></Button>
       </Section>
     </Row>
