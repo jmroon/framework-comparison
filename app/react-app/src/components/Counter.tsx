@@ -1,19 +1,23 @@
 import { Button, ButtonGroup, Typography } from '@mui/material';
 import { Box, Container, styled } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const Counter = () => {
   const [count, setCount] = useState(0);
   const [doubleCount, setDoubleCount] = useState(0);
   const [countChanged, setCountChanged] = useState(0);
-
-  useEffect(() => {
-    setCountChanged(countChanged + 1);
-  }, [count]);
+  const [timeSinceChanged, setTimeSinceChanged] = useState(0);
 
   useEffect(() => {
     setDoubleCount(count * 2);
+    setCountChanged((c) => c + 1);
+    setTimeSinceChanged(0);
   }, [count]);
+
+  useEffect(() => {
+    const interval = setInterval(() => setTimeSinceChanged((t) => t + 1), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <CounterWrapper>
@@ -22,6 +26,7 @@ export const Counter = () => {
         <CounterValue count={count}>Count: {count}</CounterValue>
         <CounterValue>2x Count: {doubleCount}</CounterValue>
         <CounterValue>Times count changed: {countChanged}</CounterValue>
+        <CounterValue>Times since last change: {timeSinceChanged}</CounterValue>
         <ButtonGroup disableElevation variant="contained">
           <Button disabled={count === 0} onClick={() => setCount(count - 1)}>
             -

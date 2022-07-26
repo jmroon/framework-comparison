@@ -8,6 +8,16 @@
 
   let countChanged = 0;
   $: count, countChanged++;
+
+  let timeSinceChange = 0;
+  $: {
+    count;
+    timeSinceChange = 0;
+  }
+
+  setInterval(() => {
+    timeSinceChange++;
+  }, 1000);
 </script>
 
 <div class="counter-wrapper">
@@ -16,6 +26,7 @@
     <h2>Count: {count}</h2>
     <h2>2x Count: {doubleCount}</h2>
     <h2>Count changed: {countChanged}</h2>
+    <h2>Time since change: {timeSinceChange}</h2>
     <Group>
       <Button variant="unelevated" disabled={count === 0} on:click={() => count--}>
         <Label>-</Label>
