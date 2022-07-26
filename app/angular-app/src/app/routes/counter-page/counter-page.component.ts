@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   selector: 'app-counter-page',
   templateUrl: './counter-page.component.html',
   styleUrls: ['./counter-page.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CounterPageComponent implements OnInit {
   constructor() {}

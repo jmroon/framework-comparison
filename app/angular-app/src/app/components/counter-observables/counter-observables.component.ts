@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BehaviorSubject, interval, map, merge, tap } from 'rxjs';
+import { BehaviorSubject, interval, map, merge } from 'rxjs';
 
 @Component({
   selector: 'app-counter-observables',
   templateUrl: './counter-observables.component.html',
   styleUrls: ['./counter-observables.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CounterObservablesComponent {
   @Input() label = 'Counter - Observables';
@@ -25,7 +25,6 @@ export class CounterObservablesComponent {
   private timeSinceChange = 0;
   timeSinceChange$ = merge(
     this.count$.pipe(
-      tap((v) => console.log(v)),
       map(() => {
         this.timeSinceChange = 0;
         return this.timeSinceChange;
