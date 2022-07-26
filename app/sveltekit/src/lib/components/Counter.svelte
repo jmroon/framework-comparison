@@ -1,28 +1,26 @@
 <script lang="ts">
-	import Button, { Label } from '@smui/button';
-	import Group from '@smui/button/src/Group.svelte';
+	import Button, { Label, Group } from '@smui/button';
 
 	export let label = 'Counter';
-	export let counter = 0;
+	export let count = 0;
 
-	$: doubleCount = counter * 2;
+	$: doubleCount = count * 2;
 
-	$: console.log('the count is ' + counter);
-
-	$: doubleCount, console.log('doubleCount changed, do something');
+	let countChanged = 0;
+	$: count, countChanged++;
 </script>
 
-<div class="counter">
+<div class="counter-wrapper">
 	<h1>{label}</h1>
-	<div class="counter-value">
-		<h2>{counter}</h2>
-	</div>
-	<div class="counter-controls">
+	<div class="counter-content">
+		<h2>Count: {count}</h2>
+		<h2>2x Count: {doubleCount}</h2>
+		<h2>Count changed: {countChanged}</h2>
 		<Group>
-			<Button variant="unelevated" on:click={() => counter--}>
+			<Button variant="unelevated" disabled={count === 0} on:click={() => count--}>
 				<Label>-</Label>
 			</Button>
-			<Button variant="unelevated" on:click={() => counter++}>
+			<Button variant="unelevated" on:click={() => count++}>
 				<Label>+</Label>
 			</Button>
 		</Group>
@@ -30,18 +28,17 @@
 </div>
 
 <style>
-	.counter {
-		width: 100%;
+	.counter-wrapper {
+		width: 400px;
+		border: 1px black solid;
+		border-radius: 10px;
+		padding: 1rem;
 	}
 
-	.counter-value {
+	.counter-content {
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
-		font-size: 20px;
-	}
-
-	.counter-controls {
-		display: flex;
-		justify-content: center;
+		align-items: center;
 	}
 </style>

@@ -3,8 +3,8 @@
 </script>
 
 <svelte:head>
-	<title>Counter</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>SvelteKit - Counter</title>
+	<meta name="description" content="Svelte Counter Demo" />
 </svelte:head>
 
 <div class="counter">
@@ -12,10 +12,4 @@
 </div>
 
 <style>
-	.counter {
-		width: 400px;
-		border: 1px black solid;
-		padding: 1rem;
-		border-radius: 10px;
-	}
 </style>

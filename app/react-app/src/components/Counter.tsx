@@ -23,7 +23,9 @@ export const Counter = () => {
 				<CounterValue>2x Count: {doubleCount}</CounterValue>
 				<CounterValue>Times count changed: {countChanged}</CounterValue>
 				<ButtonGroup disableElevation variant="contained">
-					<Button onClick={() => setCount(count - 1)}>-</Button>
+					<Button disabled={count === 0} onClick={() => setCount(count - 1)}>
+						-
+					</Button>
 					<Button onClick={() => setCount(count + 1)}>+</Button>
 				</ButtonGroup>
 			</CounterContent>
