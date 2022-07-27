@@ -1,16 +1,19 @@
-import { Button, ButtonGroup, Typography } from '@mui/material';
+import { Button, ButtonGroup, Fade, Typography, TypographyProps } from '@mui/material';
 import { Box, Container, styled } from '@mui/system';
 import { useEffect, useRef, useState } from 'react';
 
 interface CounterProps {
-  onCountChanged: () => unknown;
+  label?: string;
+  onCountChanged: (count: number) => void;
 }
 
-export const Counter = ({ onCountChanged }: CounterProps) => {
+// we can destructure and set default props here
+export const Counter = ({ label = 'Counter', onCountChanged }: CounterProps) => {
   // reactive state - the component will rerender when any of the setters are called
   const [count, setCount] = useState(0);
   const [timesChanged, setTimesChanged] = useState(0);
   const [timeSinceChanged, setTimeSinceChanged] = useState(0);
+  const [displayChange, setDisplayChange] = useState(false);
 
   // since the component will rerun when count is incremented, derived state doesn't need to be stored in component state
   const doubleCount = count * 2;
@@ -20,7 +23,7 @@ export const Counter = ({ onCountChanged }: CounterProps) => {
 
   useEffect(() => {
     setTimesChanged((c) => c + 1);
-    onCountChanged();
+    onCountChanged(count);
     if (interval.current) {
       resetTimeSinceChange();
     }
@@ -46,9 +49,16 @@ export const Counter = ({ onCountChanged }: CounterProps) => {
     }, 1000);
   }
 
+  useEffect(() => {
+    setDisplayChange(true);
+    window.setTimeout(() => {
+      setDisplayChange(false);
+    }, 1000);
+  }, [label]);
+
   return (
     <CounterWrapper>
-      <Typography variant="h4">Counter</Typography>
+      <Typography variant="h5">{label}</Typography>
       <CounterContent>
         <CounterValue count={count}>Count: {count}</CounterValue>
         <CounterValue>2x Count: {doubleCount}</CounterValue>
@@ -61,6 +71,14 @@ export const Counter = ({ onCountChanged }: CounterProps) => {
           <Button onClick={() => setCount(count + 1)}>+</Button>
         </ButtonGroup>
       </CounterContent>
+      <Typography component="span" pt={4}>
+        Message From Parent:
+      </Typography>
+      {displayChange && (
+        <Typography component="span" ml={1}>
+          Received!
+        </Typography>
+      )}
     </CounterWrapper>
   );
 };
@@ -81,8 +99,15 @@ const CounterContent = styled(Container)(() => ({
   alignItems: 'center'
 }));
 
-// pretty cool that we can programatically control our css
-const CounterValue = styled(Typography)((props: { count?: number }) => ({
-  fontSize: '1.5rem'
+interface CounterValueProps extends TypographyProps {
+  count?: number;
+}
+// pretty cool that we can programatically control our css, but the syntax is a bit unintuitive
+const CounterValue = styled(Typography)<CounterValueProps>(({ count }) => ({
   // fontSize: `${props.count ? 1 + 0.1 * props.count : 1.5}rem`
 }));
+
+// this is a React feature that allows setting default props to a reusable component externally from its implementation
+CounterValue.defaultProps = {
+  variant: 'h6'
+};
