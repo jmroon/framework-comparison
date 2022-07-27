@@ -18,34 +18,28 @@ export const Counter = ({ count, label = 'Counter', onIncrement }: CounterProps)
   // useRef will allow us to keep a mutable reference which doesn't trigger re-renders
   let interval = useRef<number | undefined>(undefined);
 
-  // calling functions in useEffect can have unintended effects, so we use useCallback to memoize the function
-  // eslint is invaluable in enforcing the use of useCallback
-  const createTimer = useCallback(() => {
-    return window.setInterval(() => {
-      setTimeSinceChanged((t) => t + 1);
-    }, 1000);
-  }, []);
-
-  const resetTimeSinceChange = useCallback(() => {
-    setTimeSinceChanged(0);
-    clearInterval(interval.current);
-    interval.current = createTimer();
-  }, [createTimer]);
-
-  // eslint is very useful in enforcing the declaration of dependencies on useEffect
-  useEffect(() => {
-    if (interval.current) {
-      resetTimeSinceChange();
-    }
-  }, [count, resetTimeSinceChange]);
-
   // on mounted hook - note runs twice if you're using React.StrictMode
   useEffect(() => {
     interval.current = interval.current ?? createTimer();
 
     // the return function is the equivalent of an on destroyed hook
     return () => clearInterval(interval.current);
-  }, [createTimer]);
+  }, []);
+
+  // eslint is very useful in enforcing the declaration of dependencies on useEffect
+  useEffect(() => {
+    if (interval.current) {
+      setTimeSinceChanged(0);
+      clearInterval(interval.current);
+      interval.current = createTimer();
+    }
+  }, [count]);
+
+  function createTimer() {
+    return window.setInterval(() => {
+      setTimeSinceChanged((t) => t + 1);
+    }, 1000);
+  }
 
   function handleIncrement() {
     onIncrement();
