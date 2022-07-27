@@ -1,4 +1,4 @@
-import { Button, Fade, styled } from '@mui/material';
+import { Button, styled } from '@mui/material';
 import { useState } from 'react';
 import { Counter } from './Counter';
 

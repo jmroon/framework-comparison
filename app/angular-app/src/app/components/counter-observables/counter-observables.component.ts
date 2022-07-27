@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { BehaviorSubject, map, skip, switchMap, tap, timer } from 'rxjs';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { combineLatest, map, Observable, switchMap, timer } from 'rxjs';
+
+interface ChildProps {
+  count: number;
+  doubleCount: number;
+  timeSinceChange: number;
+}
 
 @Component({
   selector: 'app-counter-observables',
@@ -7,28 +13,25 @@ import { BehaviorSubject, map, skip, switchMap, tap, timer } from 'rxjs';
   styleUrls: ['./counter-observables.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterObservablesComponent {
+export class CounterObservablesComponent implements OnInit {
   @Input() label = 'Counter - Observables';
-  @Output() counterChanged = new EventEmitter<void>();
+  @Input() count$!: Observable<number>;
+  @Output() increment = new EventEmitter<void>();
 
-  count$ = new BehaviorSubject(0);
+  private doubleCount$!: Observable<number>;
+  private timeSinceChange$!: Observable<number>;
 
-  doubleCount$ = this.count$.pipe(map((count) => count * 2));
+  childProps$!: Observable<ChildProps>;
 
-  private countChanged = 0;
-  timesChanged$ = this.count$.pipe(
-    skip(1),
-    map(() => this.countChanged++),
-    tap(() => this.counterChanged.emit())
-  );
-
-  timeSinceChange$ = this.count$.pipe(switchMap(() => timer(0, 1000)));
-
-  decrement() {
-    this.count$.next(this.count$.value - 1);
+  ngOnInit() {
+    this.doubleCount$ = this.count$.pipe(map((count) => count * 2));
+    this.timeSinceChange$ = this.count$.pipe(switchMap(() => timer(0, 1000)));
+    this.childProps$ = combineLatest([this.count$, this.doubleCount$, this.timeSinceChange$]).pipe(
+      map(([count, doubleCount, timeSinceChange]) => ({ count, doubleCount, timeSinceChange }))
+    );
   }
 
-  increment() {
-    this.count$.next(this.count$.value + 1);
+  handleIncrement() {
+    this.increment.emit();
   }
 }

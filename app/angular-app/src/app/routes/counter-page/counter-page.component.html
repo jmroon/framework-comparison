@@ -1,15 +1,13 @@
 <div class="counter-page">
   <div class="counter">
-    <div class="counter-message">
-      <h2 *ngIf="displayChange" @fadeOut>Changed!</h2>
-    </div>
-    <app-counter (counterChanged)="onCounterChanged()"></app-counter>
+    <h2>Counter Parent</h2>
+    <app-counter [count]="count" (increment)="handleIncrement()"></app-counter>
+    <button mat-button (click)="handleReset()">Reset</button>
   </div>
 
   <div class="counter">
-    <div class="counter-message">
-      <h2 *ngIf="displayObservableChange$ | async" @fadeOut>Changed!</h2>
-    </div>
-    <app-counter-observables (counterChanged)="onObservableCounterChanged()"></app-counter-observables>
+    <h2>Counter Parent - Observable</h2>
+    <app-counter-observables [count$]="obsCount$" (increment)="handleObsIncrement()"></app-counter-observables>
+    <button mat-button (click)="handleObsReset()">Reset</button>
   </div>
 </div>

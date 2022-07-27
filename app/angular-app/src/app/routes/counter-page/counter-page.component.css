@@ -8,6 +8,9 @@
   border: 1px black solid;
   padding: 1rem;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .counter-message {

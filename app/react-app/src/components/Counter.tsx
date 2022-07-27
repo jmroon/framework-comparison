@@ -1,6 +1,6 @@
 import { Button, Typography, TypographyProps } from '@mui/material';
 import { Box, Container, styled } from '@mui/system';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface CounterProps {
   count: number;

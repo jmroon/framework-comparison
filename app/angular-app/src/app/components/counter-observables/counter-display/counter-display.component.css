@@ -1,0 +1,13 @@
+.counter-wrapper {
+  width: 400px;
+  border: 1px black solid;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.counter-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

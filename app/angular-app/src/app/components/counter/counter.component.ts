@@ -5,51 +5,60 @@ import {
   DoCheck,
   EventEmitter,
   Input,
-  OnInit,
   Output
 } from '@angular/core';
 
 @Component({
-  selector: 'app-counter',
+  selector: 'app-counter[count]',
   templateUrl: './counter.component.html',
   styleUrls: ['./counter.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CounterComponent implements OnInit, DoCheck {
+export class CounterComponent implements DoCheck {
   @Input() label = 'Counter';
-  @Output() counterChanged = new EventEmitter<void>();
 
-  count = 0;
-  doubleCount = 0;
-  timesChanged = 0;
+  // we could also use ngOnChanges but it is type unsafe
+  private _count!: number;
+  get count() {
+    return this._count;
+  }
+  @Input() set count(count: number) {
+    this._count = count;
+    this.resetTimeSinceChange();
+  }
+
+  @Output() increment = new EventEmitter<void>();
+
+  get doubleCount() {
+    return this.count * 2;
+  }
+
   timeSinceChange = 0;
+  interval: number;
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) {
+    this.interval = this.createTimer();
+  }
 
-  ngOnInit(): void {
-    setInterval(() => {
+  resetTimeSinceChange() {
+    this.timeSinceChange = 0;
+    clearInterval(this.interval);
+    this.interval = this.createTimer();
+  }
+
+  createTimer() {
+    return window.setInterval(() => {
       this.timeSinceChange++;
+      // asynchronous changes need to be manually detected
       this.cd.markForCheck();
     }, 1000);
   }
 
+  handleIncrement() {
+    this.increment.emit();
+  }
+
   ngDoCheck() {
     console.log('do check');
-  }
-
-  decrement() {
-    this.count--;
-    this.doubleCount = this.count * 2;
-    this.timesChanged++;
-    this.timeSinceChange = 0;
-    this.counterChanged.emit();
-  }
-
-  increment() {
-    this.count++;
-    this.doubleCount = this.count * 2;
-    this.timesChanged++;
-    this.timeSinceChange = 0;
-    this.counterChanged.emit();
   }
 }

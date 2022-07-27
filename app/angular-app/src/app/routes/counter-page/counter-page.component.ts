@@ -1,53 +1,31 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { concat, map, Subject, switchMap, timer } from 'rxjs';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-counter-page',
   templateUrl: './counter-page.component.html',
   styleUrls: ['./counter-page.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('fadeOut', [
-      transition('* => void', [
-        animate(
-          1000,
-          style({
-            opacity: 0
-          })
-        )
-      ])
-    ])
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CounterPageComponent {
-  displayChange = false;
+  count = 0;
+  obsCount$ = new BehaviorSubject(0);
 
-  private displayObservableChangeSubject = new Subject<void>();
-  displayObservableChange$ = this.displayObservableChangeSubject.pipe(
-    switchMap(() =>
-      concat(
-        //
-        timer(0).pipe(map(() => true)),
-        timer(1000).pipe(map(() => false))
-      )
-    )
-  );
+  constructor() {}
 
-  constructor(private cd: ChangeDetectorRef) {}
-
-  timeout: number | undefined;
-  onCounterChanged() {
-    clearTimeout(this.timeout);
-    this.displayChange = true;
-    this.cd.markForCheck();
-    this.timeout = setTimeout(() => {
-      this.displayChange = false;
-      this.cd.markForCheck();
-    }, 1000);
+  handleIncrement() {
+    this.count++;
   }
 
-  onObservableCounterChanged() {
-    this.displayObservableChangeSubject.next();
+  handleReset() {
+    this.count = 0;
+  }
+
+  handleObsIncrement() {
+    this.obsCount$.next(this.obsCount$.value + 1);
+  }
+
+  handleObsReset() {
+    this.obsCount$.next(0);
   }
 }
