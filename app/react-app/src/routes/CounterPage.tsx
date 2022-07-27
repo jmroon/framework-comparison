@@ -6,11 +6,9 @@ export const CounterPage = () => {
   const [displayChange, setDisplayChange] = useState(false);
   const [counterNumber, setCounterNumber] = useState(0);
 
-  let timeout: number | undefined;
   function onCountChanged() {
-    clearTimeout(timeout);
     setDisplayChange(true);
-    timeout = window.setTimeout(() => {
+    window.setTimeout(() => {
       setDisplayChange(false);
     }, 1000);
   }
