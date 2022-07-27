@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 
 @Component({
   selector: 'app-counter',
@@ -8,10 +17,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, 
 })
 export class CounterComponent implements OnInit, DoCheck {
   @Input() label = 'Counter';
+  @Output() counterChanged = new EventEmitter<void>();
 
   count = 0;
   doubleCount = 0;
-  countChanged = 0;
+  timesChanged = 0;
   timeSinceChange = 0;
 
   constructor(private cd: ChangeDetectorRef) {}
@@ -30,14 +40,16 @@ export class CounterComponent implements OnInit, DoCheck {
   decrement() {
     this.count--;
     this.doubleCount = this.count * 2;
-    this.countChanged++;
+    this.timesChanged++;
     this.timeSinceChange = 0;
+    this.counterChanged.emit();
   }
 
   increment() {
     this.count++;
     this.doubleCount = this.count * 2;
-    this.countChanged++;
+    this.timesChanged++;
     this.timeSinceChange = 0;
+    this.counterChanged.emit();
   }
 }

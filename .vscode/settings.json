@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.idea": true,
+    "**/node_modules": true,
+    "**/.svelte-kit": true,
+    "**/.angular": true
+  }
+}

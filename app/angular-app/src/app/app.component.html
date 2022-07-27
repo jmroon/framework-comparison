@@ -5,8 +5,8 @@
     <button mat-button routerLink="/counter">Counter</button>
     <button mat-button routerLink="/todos">Todos</button>
   </mat-toolbar>
+  x: {{ (mousePosition$ | async)?.x }} y: {{ (mousePosition$ | async)?.y }}
   <main class="container">
-    x: {{ (mousePosition$ | async)?.x }} y: {{ (mousePosition$ | async)?.y }}
     <router-outlet></router-outlet>
   </main>
 </div>

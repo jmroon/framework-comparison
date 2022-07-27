@@ -3,10 +3,10 @@
   <div class="counter-content">
     <h2>Count: {{ count$ | async }}</h2>
     <h2>2x Count: {{ doubleCount$ | async }}</h2>
-    <h2>Count changed: {{ countChanged$ | async }}</h2>
-    <h2>Time since last change: {{ timeSinceChange$ | async }} s</h2>
+    <h2>Times changed: {{ timesChanged$ | async }}</h2>
+    <h2>Time since change: {{ timeSinceChange$ | async }} s</h2>
     <div class="buttons">
-      <button mat-flat-button color="accent" (click)="decrement()">-</button>
+      <button mat-flat-button color="accent" [disabled]="(count$ | async) === 0" (click)="decrement()">-</button>
       <button mat-flat-button color="accent" (click)="increment()">+</button>
     </div>
   </div>

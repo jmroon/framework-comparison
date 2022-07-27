@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BehaviorSubject, interval, map, merge } from 'rxjs';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { BehaviorSubject, map, skip, switchMap, tap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-counter-observables',
@@ -9,34 +9,20 @@ import { BehaviorSubject, interval, map, merge } from 'rxjs';
 })
 export class CounterObservablesComponent {
   @Input() label = 'Counter - Observables';
+  @Output() counterChanged = new EventEmitter<void>();
 
   count$ = new BehaviorSubject(0);
 
   doubleCount$ = this.count$.pipe(map((count) => count * 2));
 
   private countChanged = 0;
-  countChanged$ = this.count$.pipe(
-    map(() => {
-      this.countChanged++;
-      return this.countChanged;
-    })
+  timesChanged$ = this.count$.pipe(
+    skip(1),
+    map(() => this.countChanged++),
+    tap(() => this.counterChanged.emit())
   );
 
-  private timeSinceChange = 0;
-  timeSinceChange$ = merge(
-    this.count$.pipe(
-      map(() => {
-        this.timeSinceChange = 0;
-        return this.timeSinceChange;
-      })
-    ),
-    interval(1000).pipe(
-      map(() => {
-        this.timeSinceChange = this.timeSinceChange + 1;
-        return this.timeSinceChange;
-      })
-    )
-  );
+  timeSinceChange$ = this.count$.pipe(switchMap(() => timer(0, 1000)));
 
   decrement() {
     this.count$.next(this.count$.value - 1);

@@ -1,6 +1,7 @@
 import './App.css';
-import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
-import { Counter } from './components/Counter';
+import { AppBar, Box, Button, Container, Toolbar, Typography } from '@mui/material';
+import { Routes, Route, Link } from 'react-router-dom';
+import { CounterPage } from './routes/CounterPage';
 
 const App = () => {
   return (
@@ -10,8 +11,9 @@ const App = () => {
           <Toolbar disableGutters>
             <AppTitle />
             <Box sx={{ display: 'flex', gap: '1rem' }}>
-              <AppMenuItem label="Counter" href="/"></AppMenuItem>
-              <AppMenuItem label="Todos" href="/todos"></AppMenuItem>
+              <Button component={Link} to={'/counter'} color="inherit">
+                Counter
+              </Button>
             </Box>
           </Toolbar>
         </Container>
@@ -27,7 +29,9 @@ const App = () => {
           padding: '1rem'
         }}
       >
-        <Counter />
+        <Routes>
+          <Route path="/counter" element={<CounterPage />} />
+        </Routes>
       </Container>
     </Box>
   );
@@ -47,21 +51,5 @@ const AppTitle = () => (
     React
   </Typography>
 );
-
-const AppMenuItem = (props: { label: string; href: string }) => {
-  return (
-    <Typography
-      variant="h6"
-      component="a"
-      href={props.href}
-      sx={{
-        color: 'inherit',
-        textDecoration: 'none'
-      }}
-    >
-      {props.label}
-    </Typography>
-  );
-};
 
 export default App;

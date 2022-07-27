@@ -3,10 +3,10 @@
   <div class="counter-content">
     <h2>Count: {{ count }}</h2>
     <h2>2x Count: {{ doubleCount }}</h2>
-    <h2>Count changed: {{ countChanged }}</h2>
-    <h2>Time since last change: {{ timeSinceChange }} s</h2>
+    <h2>Times changed: {{ timesChanged }}</h2>
+    <h2>Times since change: {{ timeSinceChange }} s</h2>
     <div class="buttons">
-      <button mat-flat-button color="accent" (click)="decrement()">-</button>
+      <button mat-flat-button color="accent" [disabled]="count === 0" (click)="decrement()">-</button>
       <button mat-flat-button color="accent" (click)="increment()">+</button>
     </div>
   </div>

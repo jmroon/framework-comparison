@@ -1,31 +1,45 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import Counter from '../../lib/components/Counter.svelte';
 
-  let timeSinceChange = 0;
-  let interval = createTimer();
+  let displayChange = false;
 
-  function resetTimeSinceChange() {
-    timeSinceChange = 0;
-    clearInterval(interval);
-    interval = createTimer();
-  }
-
-  function createTimer() {
-    return setInterval(() => {
-      timeSinceChange++;
+  let timeout: number | undefined;
+  function onCountChanged() {
+    clearTimeout(timeout);
+    displayChange = true;
+    timeout = window.setTimeout(() => {
+      displayChange = false;
     }, 1000);
   }
 </script>
+
+<div class="counter">
+  <div class="counter-message">
+    {#if displayChange}
+      <h2 out:fade={{ duration: 1000 }}>Changed!</h2>
+    {/if}
+  </div>
+  <Counter label="Counter" on:countChanged={onCountChanged} />
+</div>
 
 <svelte:head>
   <title>SvelteKit - Counter</title>
   <meta name="description" content="Svelte Counter Demo" />
 </svelte:head>
 
-<div class="counter">
-  <h2>Time Since Change: {timeSinceChange} s</h2>
-  <Counter label="Counter" on:countChanged={resetTimeSinceChange} />
-</div>
-
 <style>
+  .counter {
+    border: 1px black solid;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .counter-message {
+    height: 48px;
+  }
+
+  h2 {
+    margin: 0;
+  }
 </style>

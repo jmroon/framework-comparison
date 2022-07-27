@@ -1,4 +1,15 @@
 <div class="counter-page">
-  <app-counter></app-counter>
-  <app-counter-observables></app-counter-observables>
+  <div class="counter">
+    <div class="counter-message">
+      <h2 *ngIf="displayChange" @fadeOut>Changed!</h2>
+    </div>
+    <app-counter (counterChanged)="onCounterChanged()"></app-counter>
+  </div>
+
+  <div class="counter">
+    <div class="counter-message">
+      <h2 *ngIf="displayObservableChange$ | async" @fadeOut>Changed!</h2>
+    </div>
+    <app-counter-observables (counterChanged)="onObservableCounterChanged()"></app-counter-observables>
+  </div>
 </div>
