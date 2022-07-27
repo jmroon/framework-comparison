@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button, { Label, Group } from '@smui/button';
   import { createEventDispatcher } from 'svelte';
+  import { fly } from 'svelte/transition';
 
   // input properties
   export let label = 'Counter';
@@ -15,12 +16,24 @@
   // variables are reactive by default
   let countChanged = 0;
 
+  let displayChange = false;
+
   // reactive side effect, the dependency can just be in an empty statement if unused
   $: {
     count;
     countChanged++;
     resetTimeSinceChange();
     dispatch('countChanged');
+  }
+
+  let timeout: number | undefined;
+  $: {
+    label;
+    clearTimeout(timeout);
+    displayChange = true;
+    timeout = window.setTimeout(() => {
+      displayChange = false;
+    }, 1000);
   }
 
   let timeSinceChange = 0;
@@ -55,6 +68,12 @@
       </Button>
     </Group>
   </div>
+  <div class="parent-message">
+    <h4>Message from Parent:</h4>
+    {#if displayChange}
+      <h4 transition:fly={{ x: 150 }}>Changed!</h4>
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -70,5 +89,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .parent-message {
+    height: 48px;
+    display: flex;
+    gap: 1rem;
   }
 </style>

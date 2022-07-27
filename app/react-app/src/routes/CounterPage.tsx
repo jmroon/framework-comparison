@@ -23,8 +23,8 @@ export const CounterPage = () => {
           </Fade>
         </CounterMessageWrapper>
         <Counter label={`Counter ${counterNumber}`} onCountChanged={onCountChanged} />
+        <Button onClick={() => setCounterNumber((c) => c + 1)}>Increment Counter Name</Button>
       </CounterWrapper>
-      <Button onClick={() => setCounterNumber((c) => c + 1)}>Increment Counter Name</Button>
     </>
   );
 };
