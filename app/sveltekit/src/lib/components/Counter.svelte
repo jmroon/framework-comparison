@@ -1,44 +1,31 @@
-<script lang="ts">
-  import Button, { Label, Group } from '@smui/button';
-  import { createEventDispatcher } from 'svelte';
-  import { fly } from 'svelte/transition';
+<svelte:options immutable={true} />
 
-  // input properties
+<script lang="ts">
+  import Button, { Label } from '@smui/button';
+  import { createEventDispatcher } from 'svelte';
+
+  // input props are declared using export let
+  // if props are not given a value, they will be considered required
   export let label = 'Counter';
-  export let count = 0;
+  export let count: number;
 
   // output events
-  const dispatch = createEventDispatcher<{ countChanged: void }>();
+  const dispatch = createEventDispatcher<{ increment: void; decrement: void }>();
 
   // reactive declaration
   $: doubleCount = count * 2;
 
-  // variables are reactive by default
-  let countChanged = 0;
-
-  let displayChange = false;
+  // variables are reactive, but they must be reassigned to update the DOM
+  let timeSinceChange = 0;
 
   // reactive side effect, the dependency can just be in an empty statement if unused
   $: {
     count;
-    countChanged++;
     resetTimeSinceChange();
-    dispatch('countChanged');
   }
 
-  let timeout: number | undefined;
-  $: {
-    label;
-    clearTimeout(timeout);
-    displayChange = true;
-    timeout = window.setTimeout(() => {
-      displayChange = false;
-    }, 1000);
-  }
-
-  let timeSinceChange = 0;
+  // asynchronous state changes work as expected
   let interval = createTimer();
-
   function resetTimeSinceChange() {
     timeSinceChange = 0;
     clearInterval(interval);
@@ -46,33 +33,25 @@
   }
 
   function createTimer() {
-    return setInterval(() => {
+    return window.setInterval(() => {
       timeSinceChange++;
     }, 1000);
+  }
+
+  function handleIncrement() {
+    dispatch('increment');
   }
 </script>
 
 <div class="counter-wrapper">
-  <h1>{label}</h1>
+  <h2>{label}</h2>
   <div class="counter-content">
     <h2>Count: {count}</h2>
     <h2>2x Count: {doubleCount}</h2>
-    <h2>Times changed: {countChanged}</h2>
     <h2>Time since change: {timeSinceChange}</h2>
-    <Group>
-      <Button variant="unelevated" disabled={count === 0} on:click={() => count--}>
-        <Label>-</Label>
-      </Button>
-      <Button variant="unelevated" on:click={() => count++}>
-        <Label>+</Label>
-      </Button>
-    </Group>
-  </div>
-  <div class="parent-message">
-    <h4>Message from Parent:</h4>
-    {#if displayChange}
-      <h4 transition:fly={{ x: 150 }}>Changed!</h4>
-    {/if}
+    <Button variant="unelevated" on:click={handleIncrement}>
+      <Label>Increment</Label>
+    </Button>
   </div>
 </div>
 
@@ -89,11 +68,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
   }
 
-  .parent-message {
-    height: 48px;
-    display: flex;
-    gap: 1rem;
+  h2 {
+    margin: 0;
   }
 </style>

@@ -1,33 +1,43 @@
-import { Button, ButtonGroup, Fade, Typography, TypographyProps } from '@mui/material';
+import { Button, Typography, TypographyProps } from '@mui/material';
 import { Box, Container, styled } from '@mui/system';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface CounterProps {
+  count: number;
   label?: string;
-  onCountChanged: (count: number) => void;
+  onIncrement: () => void;
 }
 
 // we can destructure and set default props here
-export const Counter = ({ label = 'Counter', onCountChanged }: CounterProps) => {
+export const Counter = ({ count, label = 'Counter', onIncrement }: CounterProps) => {
   // reactive state - the component will rerender when any of the setters are called
-  const [count, setCount] = useState(0);
-  const [timesChanged, setTimesChanged] = useState(0);
   const [timeSinceChanged, setTimeSinceChanged] = useState(0);
-  const [displayChange, setDisplayChange] = useState(false);
-
   // since the component will rerun when count is incremented, derived state doesn't need to be stored in component state
   const doubleCount = count * 2;
 
   // useRef will allow us to keep a mutable reference which doesn't trigger re-renders
   let interval = useRef<number | undefined>(undefined);
 
+  // calling functions in useEffect can have unintended effects, so we use useCallback to memoize the function
+  // eslint is invaluable in enforcing the use of useCallback
+  const createTimer = useCallback(() => {
+    return window.setInterval(() => {
+      setTimeSinceChanged((t) => t + 1);
+    }, 1000);
+  }, []);
+
+  const resetTimeSinceChange = useCallback(() => {
+    setTimeSinceChanged(0);
+    clearInterval(interval.current);
+    interval.current = createTimer();
+  }, [createTimer]);
+
+  // eslint is very useful in enforcing the declaration of dependencies on useEffect
   useEffect(() => {
-    setTimesChanged((c) => c + 1);
-    onCountChanged(count);
     if (interval.current) {
       resetTimeSinceChange();
     }
-  }, [count]);
+  }, [count, resetTimeSinceChange]);
 
   // on mounted hook - note runs twice if you're using React.StrictMode
   useEffect(() => {
@@ -35,50 +45,23 @@ export const Counter = ({ label = 'Counter', onCountChanged }: CounterProps) => 
 
     // the return function is the equivalent of an on destroyed hook
     return () => clearInterval(interval.current);
-  }, []);
+  }, [createTimer]);
 
-  function resetTimeSinceChange() {
-    setTimeSinceChanged(0);
-    clearInterval(interval.current);
-    interval.current = createTimer();
+  function handleIncrement() {
+    onIncrement();
   }
-
-  function createTimer() {
-    return window.setInterval(() => {
-      setTimeSinceChanged((t) => t + 1);
-    }, 1000);
-  }
-
-  useEffect(() => {
-    setDisplayChange(true);
-    window.setTimeout(() => {
-      setDisplayChange(false);
-    }, 1000);
-  }, [label]);
 
   return (
     <CounterWrapper>
-      <Typography variant="h5">{label}</Typography>
+      <h3>{label}</h3>
       <CounterContent>
         <CounterValue count={count}>Count: {count}</CounterValue>
         <CounterValue>2x Count: {doubleCount}</CounterValue>
-        <CounterValue>Times count changed: {timesChanged}</CounterValue>
         <CounterValue>Times since last change: {timeSinceChanged}</CounterValue>
-        <ButtonGroup disableElevation variant="contained">
-          <Button disabled={count === 0} onClick={() => setCount(count - 1)}>
-            -
-          </Button>
-          <Button onClick={() => setCount(count + 1)}>+</Button>
-        </ButtonGroup>
+        <Button variant="contained" disableElevation onClick={handleIncrement}>
+          Increment
+        </Button>
       </CounterContent>
-      <Typography component="span" pt={4}>
-        Message From Parent:
-      </Typography>
-      {displayChange && (
-        <Typography component="span" ml={1}>
-          Received!
-        </Typography>
-      )}
     </CounterWrapper>
   );
 };

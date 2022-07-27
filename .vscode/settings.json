@@ -5,5 +5,9 @@
     "**/node_modules": true,
     "**/.svelte-kit": true,
     "**/.angular": true
-  }
+  },
+  "eslint.validate": ["vue", "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte"],
+  "eslint.probe": ["vue", "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte"],
+  "prettier.documentSelectors": ["{**/*,*}.{js,ts,jsx,tsx,html,json,vue,svelte}"],
+  "autoimport.filesToScan": "**/*.{ts,tsx,vue,svelte,js,jsx}"
 }
