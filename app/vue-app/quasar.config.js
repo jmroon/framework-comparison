@@ -72,6 +72,8 @@ module.exports = configure(function (/* ctx */) {
       // extendViteConf (viteConf) {},
       viteVuePluginOptions: { reactivityTransform: false },
 
+      // this is super useful, but intellij doesn't play nice with it yet
+      // but then again IntelliJ really isn't suitable for Vue 3 at the moment
       vitePlugins: [
         [
           'unplugin-auto-import/vite',
@@ -98,7 +100,7 @@ module.exports = configure(function (/* ctx */) {
 
             // Auto import inside Vue template
             // see https://github.com/unjs/unimport/pull/15 and https://github.com/unjs/unimport/pull/72
-            vueTemplate: true,
+            vueTemplate: false,
 
             // Custom resolvers, compatible with `unplugin-vue-components`
             // see https://github.com/antfu/unplugin-auto-import/pull/23/

@@ -6,7 +6,8 @@
   "scripts": {
     "dev:svelte": "cd ./app/sveltekit && yarn dev",
     "dev:react": "cd ./app/react-app && yarn start",
-    "dev:angular": "cd ./app/angular-app && yarn start"
+    "dev:angular": "cd ./app/angular-app && yarn start",
+    "dev:vue": "cd ./app/vue-app && yarn dev"
   },
   "keywords": [],
   "author": "",

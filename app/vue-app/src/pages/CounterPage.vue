@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import Counter from 'components/AppCounter.vue';
-
-let count = ref(0);
-
-function incrementLabel() {}
+  import CounterParent from 'src/components/CounterParent.vue';
 </script>
 
 <template>
-  Counter page!
-  <Counter></Counter>
-  <q-btn @click="incrementLabel()"></q-btn>
+  <q-page padding>
+    <div class="column items-center full-height">
+      <CounterParent></CounterParent>
+    </div>
+  </q-page>
 </template>
 
 <style scoped></style>

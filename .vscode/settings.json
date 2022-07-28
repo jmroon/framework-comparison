@@ -9,5 +9,5 @@
   "eslint.validate": ["vue", "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte"],
   "eslint.probe": ["vue", "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte"],
   "prettier.documentSelectors": ["{**/*,*}.{js,ts,jsx,tsx,html,json,vue,svelte}"],
-  "autoimport.filesToScan": "**/*.{ts,tsx,vue,svelte,js,jsx}"
+  "css.styleSheets": ["https://cdn.jsdelivr.net/npm/quasar@2.7.5/dist/quasar.css"]
 }

@@ -5,6 +5,8 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "svelte.svelte-vscode",
-    "Vue.volar"
+    "vue.volar",
+    "ecmel.vscode-html-css",
+    "mattpocock.ts-error-translator"
   ]
 }
